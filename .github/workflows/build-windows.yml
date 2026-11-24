@@ -1,0 +1,24 @@
+name: Build Cybertech Engine (Windows)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: rustup toolchain install 1.98.0 --profile minimal --no-self-update
+      - name: Build
+        run: cargo build --locked --release
+      - name: Package
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force dist | Out-Null
+          Copy-Item target/release/cybertech-engine.exe dist/
+          Copy-Item LICENSE, NOTICE-CYBERTECH.md, START_CYBERTECH_ENGINE.bat, QUICKSTART.txt dist/
+          Copy-Item -Recurse third_party dist/third_party
+      - uses: actions/upload-artifact@v4
+        with:
+          name: CybertechEngine-windows
+          path: dist
