@@ -10,7 +10,7 @@ jobs:
       - uses: actions/checkout@v4
       - run: rustup toolchain install 1.98.0 --profile minimal --no-self-update
       - name: Build
-        run: cargo build --locked --release
+        run: cargo build --locked --release -p ojas-cli
       - name: Package
         shell: pwsh
         run: |
