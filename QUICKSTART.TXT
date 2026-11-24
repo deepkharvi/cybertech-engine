@@ -1,0 +1,36 @@
+THE CYBERTECH ENGINE - QUICK START (Windows)
+ 
+Keep CybertechEngine.exe, cybertech.exe and cybertech-engine.exe together in one folder (e.g. C:\CybertechEngine).
+ 
+1. OPEN THE APP
+       double-click CybertechEngine.exe
+   A window opens and the service starts by itself. Keep the window open (or minimised)
+   while other apps use your models. Tabs: Models (download / delete) and Chat (test).
+   The service listens on http://127.0.0.1:11434 - the same address and API as Ollama.
+   No window wanted?  double-click START_CYBERTECH.bat  (or run: cybertech serve)
+ 
+2. DOWNLOAD A MODEL - in the app: Models tab > type a name > Download.
+   Or on the command line (click the folder address bar, type cmd, Enter):
+       cybertech pull qwen2.5:3b
+   Names: qwen2.5:3b  qwen2.5:7b  qwen2.5-coder:7b  llama3.2:3b  llama3.1:8b
+   Any Hugging Face GGUF repo also works:   cybertech pull owner/repo
+   Another quality level:                   cybertech pull qwen2.5:7b Q8_0
+ 
+3. USE IT
+       cybertech run qwen2.5:3b       chat in the window
+       cybertech list                 show models
+       cybertech rm qwen2.5:3b        delete a model
+ 
+4. CONNECT YOUR APP
+   - An app that supports Ollama: leave its address as http://127.0.0.1:11434
+     and pick the model name shown by "cybertech list".
+   - An app that supports OpenAI: base URL http://127.0.0.1:11434/v1 , any API key.
+   The service loads the model an app asks for, and unloads it after 10 idle minutes.
+ 
+Models are stored in %LOCALAPPDATA%\CybertechEngine\models  (change: CYBERTECH_MODELS).
+Close Ollama first if it is installed - it uses the same port. Or change ours:
+set CYBERTECH_PORT=11500
+ 
+Low on memory?  The service already uses compact 8-bit weights. Use a smaller model
+(cybertech pull Qwen/Qwen2.5-1.5B-Instruct-GGUF) if loading fails.
+ 
