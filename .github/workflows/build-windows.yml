@@ -9,14 +9,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: rustup toolchain install 1.98.0 --profile minimal --no-self-update
-      - name: Build
+      - name: Build engine
         run: cargo build --locked --release -p ojas-cli
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build cybertech.exe (command line) and CybertechEngine.exe (window)
+        run: |
+          pip install pyinstaller
+          pyinstaller --onefile --name cybertech --distpath hubdist --workpath hubwork --specpath hubwork cybertech/cybertech.py
+          pyinstaller --onefile --windowed --name CybertechEngine --distpath hubdist --workpath hubwork2 --specpath hubwork2 cybertech/cybertech.py
       - name: Package
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force dist | Out-Null
           Copy-Item target/release/cybertech-engine.exe dist/
-          Copy-Item LICENSE, NOTICE-CYBERTECH.md, START_CYBERTECH_ENGINE.bat, QUICKSTART.txt dist/
+          Copy-Item hubdist/cybertech.exe, hubdist/CybertechEngine.exe dist/
+          Copy-Item LICENSE, NOTICE-CYBERTECH.md, START_CYBERTECH.bat, QUICKSTART.txt dist/
           Copy-Item -Recurse third_party dist/third_party
       - uses: actions/upload-artifact@v4
         with:
