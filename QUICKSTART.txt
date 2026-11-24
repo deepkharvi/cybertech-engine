@@ -1,0 +1,19 @@
+THE CYBERTECH ENGINE - QUICK START (Windows)
+
+1. Put cybertech-engine.exe in a folder (for example C:\CybertechEngine).
+2. Open Command Prompt in that folder (click the address bar, type cmd, Enter).
+3. Download a model (first time only, like "ollama pull"):
+       cybertech-engine.exe pull qwen2.5:3b
+   Built-in names: qwen2.5:3b  qwen2.5:7b  qwen2.5-coder:7b  llama3.2:3b  llama3.1:8b
+   Any Hugging Face GGUF repo also works:  cybertech-engine.exe pull owner/repo
+   Another size/quality:                   cybertech-engine.exe pull qwen2.5:7b Q8_0
+4. See what you have:        cybertech-engine.exe list
+   Delete a model:           cybertech-engine.exe rm qwen2.5:3b
+5. Start the server:         cybertech-engine.exe serve qwen2.5:3b
+   (or double-click START_CYBERTECH_ENGINE.bat)
+6. In Cybertech AI: Settings > Answer model > "The Cybertech Engine",
+   model name: qwen2.5:3b, then Save.
+
+Models are stored in %LOCALAPPDATA%\CybertechEngine\models
+(change with the CYBERTECH_MODELS environment variable).
+Downloads resume if interrupted: just run the same pull command again.
